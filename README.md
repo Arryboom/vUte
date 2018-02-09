@@ -5,12 +5,15 @@ VeraCrypt Bruteforcer
 
 # How to install 
 
-git clone https://github.com/okno/vUte.git ; 
-cd vUte 
+`git clone https://github.com/okno/vUte.git`
+
+`cd vUte` 
+
 
 Even more beautiful with **lolcat** :D
 
-apt install lolcat
+
+`apt install lolcat`
 
 # Usage 
     ./vute.dev.sh [-t timeout INT] [-r threads INT ] [-d dictionary FILE]
