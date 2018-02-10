@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 # Standard Debug function
 function DeBug() {
 exec 5> >(logger -t $0)
@@ -14,6 +15,7 @@ echo -e " > \033[00;31m!!\033[0m Debug mode ON"
 DeBug
 
 # Internal Vars
+lolcatpath=/usr/games/lolcat
 RES='\033[0m'
 RED='\033[00;31m'
 GREEN='\033[00;32m'
@@ -63,7 +65,11 @@ EOF
 }
 
 function bannervUte() {
-catcmd=/usr/games/lolcat
+	if [ -e "$lolcatpath" ]; then
+    	catcmd=$lolcatpath
+	else 
+    	catcmd=cat
+	fi 
 $catcmd <<EOF
 $vuteline
        _   _ _         _   ____  
@@ -127,14 +133,23 @@ EOF
 
 function updatevUte() {
 			echo " > Updating..."
-			wget "https://raw.githubusercontent.com/okno/vute/master/vute.sh" -O vute.sh.new
+			wget "https://raw.githubusercontent.com/okno/vute/master/vute.sh" -q -O vute.sh.new
 			updok=$?
 			if [ $updok == "0" ]
 				then
-  					echo " > Successfully updated!"
-  					exit 0
+  					echo -e " >$GREEN Successfully downloaded!$RES"
+					  while true; do
+    					read -p " > Do you wish to update the script (this will overwrite the old one)?" yn
+    					case $yn in
+      					[Yy]* ) mv vute.sh.new vute.sh; break;;
+       					[Nn]* ) exit;;
+       					 * ) echo " > Please answer yes or no.";;
+    					esac
+						done
+  						echo -e " >$GREEN Successfully updated!$RES"
+					  	exit 0
 				else
- 					echo -e " > $RED!! ERROR$RES -> Check yout proxy or Internet Connection." >&2
+ 					echo -e " > $RED! ERROR$RES -> Check yout proxy or Internet Connection." 
   					echo $vuteline
 					exit 1
 			fi
@@ -176,7 +191,7 @@ while getopts "c:t:r:d:hlu" opt; do
 done
 if [ $OPTIND -eq 1 ];
 	then
-		echo " > ! ERROR -> No options were passed, -d is mandatory"
+		echo -e " > $RED! ERROR$RES -> No options were passed, -d is mandatory"
 		echo " > TIP -> Use $0 -h for usage."
 		exit 1;
 fi
@@ -198,10 +213,10 @@ cat <<EOF
  > Container = $container
 EOF
 
-#while IFS='' read -r passwd || [[ -n "$passwd" ]]; do
-#    echo "> Testing Password : $passwd";
-#    timeout $timeout echo veracrypt!! ;
-#done < "$dictionary"
+while IFS='' read -r passwd || [[ -n "$passwd" ]]; do
+    echo -e " > Testing Password : $WHITE$passwd$RES";
+    timeout $timeout echo BRUTE ;
+done < "$dictionary"
 
 echo $vuteline
 }

@@ -42,3 +42,8 @@ Even more beautiful with **lolcat** :D
         Print help options and Exit 0
 # Examples 
 
+# Troubleshooting
+
+If you copy the script from Windows to Linux you should remove CRLF :
+
+`mv vute.dev.sh vute.dev.tmp ; tr -d '\r' < vute.dev.tmp > vute.dev.sh`
