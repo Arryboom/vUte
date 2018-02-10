@@ -1,1 +1,10 @@
-mv vute.dev.sh vute.dev.tmp ; tr -d '\r' < vute.dev.tmp > vute.dev.sh
+#!/bin/bash
+#
+
+for filez in *
+do
+    echo " Converting -> $filez"
+	mv $filez $filez.tmp ; tr -d '\r' < $filez.tmp > $filez
+done
+rm *.tmp
+echo " Done!"
