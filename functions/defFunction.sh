@@ -101,25 +101,44 @@ EOF
 
 # Update from github repo
 function updatevUte() {
-			echo " > Updating..."
-			wget "https://raw.githubusercontent.com/okno/vute/master/vute.sh" -q -O vute.sh.new
+            while true; do
+    					read -p " > Do you wish to update vUte from GithHub?" yn
+    					case $yn in
+      					[Yy]* ) git pull; break;;
+       					[Nn]* ) echo " > No changes." ; exit 0 ;;
+       					 * ) echo " > Please answer yes or no.";;
+    					esac
+			done
 			updok=$?
 			if [ $updok == "0" ]
 				then
-  					echo -e " >$GREEN Successfully downloaded!$RES"
-					  while true; do
-    					read -p " > Do you wish to update the script (this will overwrite the old one)?" yn
-    					case $yn in
-      					[Yy]* ) mv vute.sh.new vute.sh; break;;
-       					[Nn]* ) exit;;
-       					 * ) echo " > Please answer yes or no.";;
-    					esac
-						done
   						echo -e " >$GREEN Successfully updated!$RES"
 					  	exit 0
 				else
- 					echo -e " > $RED! ERROR$RES -> Check yout proxy or Internet Connection." 
-  					echo $vuteline
-					exit 1
+ 					    echo -e " > $RED! ERROR$RES -> Check your Proxy, Internet Connection, or Git response" 
+  					    echo $vuteline
+					    exit 1
 			fi
+}
+function bruteVeracrypt() {
+if [ $container == 0 ];
+	then
+		echo " > $RED! ERROR$RES -> No Container was specified" ; 
+		exit 1;
+fi
+
+cat <<EOF
+ > Starting vUte...
+ > Timeout = $timeout
+ > Threads = $threads
+ > Wordlist = $dictionary
+ > Container = $container
+EOF
+
+while IFS='' read -r passwd || [[ -n "$passwd" ]]; do
+    echo -e " > Testing Password : $WHITE$passwd$RES";
+    timeout $timeout echo BRUTE ;
+done < "$dictionary"
+
+echo $vuteline
 }
